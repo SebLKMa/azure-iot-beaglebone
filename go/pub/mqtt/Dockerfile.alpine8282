@@ -1,0 +1,26 @@
+# Here are the steps for build script:
+# CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o gomqttpub main.go
+# docker build -t gomqttpub-alpine -f Dockerfile.alpine8282 .
+# docker run -p 8282:8282 gomqttpub-alpine:latest
+# docker run -d -p 8282:8282 gomqttpub-alpine:latest
+# docker exec -i -t <containerId/Name> /bin/sh
+# docker run -p 8282:8282 --rm -it --entrypoint=/bin/sh gomqttpub-alpine:latest
+# My docker basics - https://github.com/sebmacisco/cisco-iox-go/tree/master/gosafeentry/gateway
+FROM alpine:latest
+
+# dockerfile best practices
+#RUN apt-get update && apt-get install -y \
+#    curl \
+# && rm -rf /var/lib/apt/lists/*
+# Adding curl
+RUN apk update && apk upgrade && \ 
+    apk add curl
+
+RUN mkdir /app
+WORKDIR /app
+COPY gomqttpub .
+COPY start.sh .
+EXPOSE 8282
+#CMD [ "/bin/sh"]
+#CMD ["./start.sh"]
+CMD ["./gomqttpub"]

@@ -1,0 +1,1 @@
+nohup ./gomqttpub >& /dev/null &

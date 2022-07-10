@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+# dockerfile best practices
+#RUN apt-get update && apt-get install -y \
+#    curl \
+# && rm -rf /var/lib/apt/lists/*
+# Adding curl
+RUN apk update && apk upgrade && \ 
+    apk add curl
+
+RUN mkdir /app
+WORKDIR /app
+COPY gomqttpubarm32v7 .
+EXPOSE 8282
+#CMD [ "/bin/sh"]
+CMD ["./gomqttpubarm32v7"]
